@@ -19,6 +19,20 @@
 - **No phantom features** - Don't document or validate features that aren't implemented
 - **No hardcoded paths** - Use environment variables or config files, not `/Users/yourname/...`
 
+## Comments
+- No comments that repeat what code does
+- No commented-out code (delete it)
+- No obvious comments ("increment counter")
+- No comments instead of good naming
+- No comments about updates to old code ("<- now supports xyz")
+
+Principle: Code should be self-documenting. If you need a comment to explain WHAT the code does, refactor to make it clearer.
+
+## Error Handling
+- Fail fast with clear error messages
+- Never swallow exceptions silently
+- Include context in errors (what operation, what input)
+
 ## CLI Tools
 | tool | replaces | usage |
 |------|----------|--------|
@@ -196,36 +210,16 @@ shfmt -d script.sh  # Check formatting (-w to fix)
 - Use `.env` files (gitignored) for local dev
 - Reference secrets via environment variables
 
-## Testing Philosophy
+## Testing
 
-**Mock boundaries, not logic.** Only mock things that are:
-- Slow (network, filesystem, databases)
-- Non-deterministic (time, randomness)
-- External services you don't control
+**Mock boundaries, not logic.** Only mock things that are slow (network, filesystem, databases), non-deterministic (time, randomness), or external services you don't control.
 
-**Don't mock:**
-- The code you're actually testing
-- Pure functions or deterministic internal logic
-- Things just because they're dependencies
+Don't mock the code you're testing, pure functions, or dependencies just because they're dependencies. If your test would pass with the implementation deleted, you've mocked too much.
 
-**The mock test smell:** If your test would still pass with the implementation deleted, you've mocked too much. Tests should fail when code breaks.
-```python
-# :x: Bad: mocking everything, testing nothing
-def test_process_order(mock_validator, mock_calculator, mock_formatter):
-    mock_validator.return_value = True
-    mock_calculator.return_value = 100
-    mock_formatter.return_value = "$100"
-    result = process_order(order)  # Just calls your mocks
-    assert result == "$100"  # Proves nothing
+**Verify tests catch failures.** When writing a test:
+1. Write the test for the bug/behavior you're preventing
+2. Temporarily break the code to verify the test fails
+3. Fix and verify it passes
+4. Document what specific failure the test prevents
 
-# :white_check_mark: Good: real logic, mock only the boundary
-def test_process_order(mock_payment_gateway):
-    mock_payment_gateway.charge.return_value = PaymentResult(success=True)
-    result = process_order(real_order)  # Real validation, calculation, formatting
-    assert result.total == 100
-    assert result.status == "completed"
-```
-
-**Prefer real implementations** when they're fast and deterministic. A real `Calculator` class is better than a mock since you're testing actual behavior.
-
-**Integration tests catch what unit tests miss.** A function can be "100% covered" by mocked unit tests and still fail in production. When in doubt, test the real interaction.
+Integration tests catch what unit tests miss. When in doubt, test the real interaction.
