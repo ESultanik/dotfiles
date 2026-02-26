@@ -7,3 +7,5 @@ if status is-interactive
         git --git-dir=$HOME/.dotfiles --work-tree=$HOME $argv
     end
 end
+
+fish_add_path -g --append --path ~/.local/bin
