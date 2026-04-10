@@ -8,4 +8,5 @@ if status is-interactive
     end
 end
 
-fish_add_path -a /usr/local/bin
+fish_add_path -g --append --path /usr/local/bin
+fish_add_path -g --append --path ~/.local/bin
