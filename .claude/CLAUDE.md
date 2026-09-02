@@ -65,6 +65,21 @@ When adding or updating dependencies, CI actions, or tool versions:
 3. Check the official source (PyPI, npm, GitHub releases) for latest stable
 4. Exception: Only skip web search if user explicitly provides the version to use
 
+## Technical Writing
+Follow the [Google developer documentation style guide](https://developers.google.com/style) for all
+technical writing: docs, READMEs, docstrings, comments, commit messages, PR and issue descriptions.
+`rules/documentation.md` holds the distilled guide and loads automatically when editing docs; the
+rules below apply everywhere, including commits and PRs, which no path rule covers.
+
+- Second person ("you"), active voice, present tense
+- Sentence case for headings; serial commas; American spelling
+- No jargon, idioms, or figures of speech—write for international readers
+- Never "simply," "just," or "easy"; no exclamation marks or filler ("please note")
+- Prefer allowlist/denylist, primary/replica; no ableist or violent verbs (kill, hang, cripple)
+- Unambiguous dates (2026-09-02), and version numbers instead of "latest" or "new"
+
+Exception: commit subject lines stay imperative (see Git); the style guide governs the body.
+
 ## Git
 - Commit messages: imperative mood, ≤72 char subject line
 - One logical change per commit
