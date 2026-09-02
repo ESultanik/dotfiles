@@ -54,3 +54,6 @@ font-family = "FiraCode Nerd Font Mono"
 shell-integration = fish
 
 command = ~/.local/bin/runfish.sh
+
+# Workaround for https://vninja.net/2024/12/28/ghostty-workaround-for-missing-or-unsuitable-terminal-xterm-ghostty/
+shell-integration-features = ssh-terminfo,ssh-env
