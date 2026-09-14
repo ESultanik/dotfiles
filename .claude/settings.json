@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "enabledPlugins": {
+    "static-analysis@trailofbits": false,
+    "interslavic@esultanik-skills": true,
+    "plugin-dev@claude-plugins-official": true,
+    "writing-style@trailofbits": false,
+    "audit-context-building@trailofbits": false,
+    "issue-writer@trailofbits": false,
+    "clangd-lsp@claude-plugins-official": true,
+    "recruiting@trailofbits": true,
+    "fix-review@trailofbits": false,
+    "culture-index@trailofbits": true,
+    "skill-creator@claude-plugins-official": true,
+    "github-triage@trailofbits": true
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/block-worktree-stash.sh\"",
+            "if": "Bash(git stash:*)"
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/block-worktree-stash.sh\"",
+            "if": "Bash(git -C * stash*)"
+          }
+        ]
+      }
+    ]
+  }
+}

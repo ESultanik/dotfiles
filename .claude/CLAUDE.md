@@ -84,6 +84,9 @@ Exception: commit subject lines stay imperative (see Git); the style guide gover
 - Commit messages: imperative mood, ≤72 char subject line
 - One logical change per commit
 - Never amend/rebase commits already pushed to shared branches
+- Worktrees share one `.git`: branches, tags, the stash, config, hooks and `rr-cache` are common
+  to every agent and to your main checkout. Never `git stash` in a worktree—make a WIP commit on
+  your own branch instead. Read `~/.claude/reference/git-worktrees.md` before working in one.
 
 ## When Uncertain
 - If requirements are ambiguous, state your assumptions and then ask for clarification
