@@ -1,0 +1,25 @@
+repos:
+  - repo: local
+    hooks:
+      - id: shfmt
+        name: shfmt
+        entry: shfmt -i 2 -d
+        language: system
+        types: [shell]
+      - id: shellcheck
+        name: shellcheck
+        entry: shellcheck
+        language: system
+        types: [shell]
+      - id: json
+        name: Validate JSON
+        entry: jq empty
+        language: system
+        types: [json]
+      - id: toml
+        name: Validate TOML
+        entry: >-
+          python3 -c 'import pathlib,sys,tomllib;
+          [tomllib.loads(pathlib.Path(p).read_text()) for p in sys.argv[1:]]'
+        language: system
+        types: [toml]
