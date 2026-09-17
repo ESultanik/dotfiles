@@ -76,10 +76,9 @@ or copy plugin content into the dotfiles repository.
 Run these checks after installation:
 
 ```bash
-python3 -c 'import os,tomllib;tomllib.load(open(os.path.expanduser("~/.codex/config.toml"),"rb"))'
+"$HOME/.config/agents/skills/install-agent-config/scripts/validate-agent-config.sh"
 codex --strict-config doctor --summary
 codex plugin list --json
-jq empty "$HOME/.claude/settings.json"
 shellcheck "$HOME"/.config/agents/hooks/*.sh
 shfmt -i 2 -d "$HOME"/.config/agents/hooks/*.sh
 ```
