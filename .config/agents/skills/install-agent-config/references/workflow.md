@@ -16,6 +16,7 @@ Resolve `~` with the active user's home directory. Never embed a username in a p
 |---|---|---|
 | Shared instructions | `~/.config/agents/AGENTS.md` | `~/.codex/AGENTS.md` symlink |
 | Claude adapter | tracked by dotfiles | `~/.claude/CLAUDE.md` |
+| Claude settings | `~/.config/agents/claude/settings.json` | `~/.claude/settings.json` merge |
 | Codex defaults | `~/.config/agents/codex/config.toml` | `~/.codex/config.toml` merge |
 | Hooks | `~/.config/agents/hooks/*.sh` | referenced in both client settings |
 
@@ -25,7 +26,7 @@ dotfiles checkout normally creates both adapters; repair them only after the use
 ## Preview
 
 1. Confirm every source file exists and each hook is executable.
-2. Read the live Codex configuration if present.
+2. Read the live Codex and Claude configuration if present.
 3. Build a proposed merge where tracked shared keys win and target-only keys remain unchanged.
 4. Preserve machine-local tables such as `projects`, `hooks.state`, and model migration records.
 5. Remove literal MCP credentials. The Exa server forwards `EXA_API_KEY` with `env_vars`.
@@ -37,9 +38,12 @@ After confirmation:
 
 1. Create `~/.codex` if needed.
 2. Merge the Codex defaults without replacing the complete target file.
-3. Verify the instruction symlink and Claude import adapter.
-4. Set executable mode on every canonical hook.
-5. Leave `~/.codex/rules`, authentication stores, plugin caches, and unrelated skills unchanged.
+3. Merge the Claude settings template into `~/.claude/settings.json`. Tracked keys win.
+4. Keep machine-local Claude keys. `enabledPlugins` and `extraKnownMarketplaces` entries for
+   private marketplaces belong only on the machine, never in the tracked template.
+5. Verify the instruction symlink and Claude import adapter.
+6. Set executable mode on every canonical hook.
+7. Leave `~/.codex/rules`, authentication stores, plugin caches, and unrelated skills unchanged.
 
 If `EXA_API_KEY` is unavailable, finish the file installation and report that Exa remains disabled
 until the user provides the variable through an untracked environment or credential mechanism.

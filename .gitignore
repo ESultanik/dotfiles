@@ -1,0 +1,4 @@
+# Live Claude Code settings. Machine-local: it holds private marketplace and
+# plugin entries. The tracked template is .config/agents/claude/settings.json,
+# which install-agent-config merges into this file.
+.claude/settings.json

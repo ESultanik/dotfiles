@@ -30,9 +30,13 @@ After checking out the dotfiles, start either client and invoke the installer:
 - In Codex, ask it to use `$install-agent-config`.
 
 Review the proposed changes before confirming them. The installer merges the portable Codex
-defaults into `~/.codex/config.toml`, preserves machine-local state and authentication, validates
-the shared hooks, and installs the configured public plugins. It does not track credentials. Set
+defaults into `~/.codex/config.toml` and the Claude settings template into
+`~/.claude/settings.json`, preserves machine-local state and authentication, validates the shared
+hooks, and installs the configured public plugins. It does not track credentials. Set
 `EXA_API_KEY` through an untracked environment or credential mechanism to enable the Exa server.
+
+Both live client configuration files stay untracked, because they hold machine-local state such as
+private plugin marketplaces. The repository tracks only the portable templates they merge from.
 
 See the [installer workflow](../.config/agents/skills/install-agent-config/references/workflow.md)
 for the source files, merge rules, plugins, and validation steps.
