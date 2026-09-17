@@ -1,0 +1,3 @@
+interface:
+  display_name: "Install Agent Config"
+  short_description: "Install shared Claude and Codex settings"
