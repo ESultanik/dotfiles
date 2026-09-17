@@ -9,13 +9,41 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.config/agents/hooks/block-worktree-stash.sh\"",
-            "if": "Bash(git stash:*)"
+            "command": "bash \"$HOME/.config/agents/hooks/block-dangerous-command.sh\"",
+            "timeout": 30,
+            "statusMessage": "Checking command policy"
           },
           {
             "type": "command",
             "command": "bash \"$HOME/.config/agents/hooks/block-worktree-stash.sh\"",
-            "if": "Bash(git -C * stash*)"
+            "if": "Bash(git stash:*)",
+            "timeout": 30,
+            "statusMessage": "Checking worktree policy"
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.config/agents/hooks/block-worktree-stash.sh\"",
+            "if": "Bash(git -C * stash*)",
+            "timeout": 30,
+            "statusMessage": "Checking worktree policy"
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.config/agents/hooks/enforce-package-manager.sh\"",
+            "timeout": 30,
+            "statusMessage": "Checking package manager"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.config/agents/hooks/log-gam.sh\"",
+            "timeout": 30
           }
         ]
       }
@@ -30,6 +58,7 @@
     "issue-writer@trailofbits": false,
     "clangd-lsp@claude-plugins-official": true,
     "fix-review@trailofbits": false,
+    "recruiting@trailofbits": true,
     "culture-index@trailofbits": true,
     "skill-creator@claude-plugins-official": true,
     "github-triage@trailofbits": true
