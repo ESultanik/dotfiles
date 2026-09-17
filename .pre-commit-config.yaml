@@ -13,7 +13,7 @@ repos:
         types: [shell]
       - id: json
         name: Validate JSON
-        entry: jq empty
+        entry: python3 .config/agents/skills/install-agent-config/scripts/check-json.py
         language: system
         types: [json]
       - id: toml
