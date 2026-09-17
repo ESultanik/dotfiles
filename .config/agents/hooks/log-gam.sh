@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # Codex PostToolUse hook for Bash. Logs GAM (Google Apps Manager) write
@@ -22,36 +22,36 @@ FIRST_WORD="${GAM_ARGS%% *}"
 printf '%s\n' "${FIRST_WORD}" | grep -qiE "^${READ_PATTERN}$" && exit 0
 
 ACTION=$(
-	printf '%s\n' "${GAM_ARGS}" |
-		grep -oiE "(^|[[:space:]])${WRITE_PATTERN}([[:space:]]|$)" |
-		head -1 |
-		tr -d ' ' || true
+  printf '%s\n' "${GAM_ARGS}" |
+    grep -oiE "(^|[[:space:]])${WRITE_PATTERN}([[:space:]]|$)" |
+    head -1 |
+    tr -d ' ' || true
 )
 [[ -z "${ACTION}" ]] && exit 0
 
 EXIT_CODE=$(
-	printf '%s' "${INPUT}" |
-		jq -r '.tool_response.exit_code // .tool_result.exit_code // 0'
+  printf '%s' "${INPUT}" |
+    jq -r '.tool_response.exit_code // .tool_result.exit_code // 0'
 )
 if [[ "${EXIT_CODE}" == "0" ]]; then
-	STATUS="success"
+  STATUS="success"
 else
-	STATUS="failed"
+  STATUS="failed"
 fi
 
 LOG_FILE="${CWD}/google/.changelog-raw.jsonl"
 mkdir -p "$(dirname "${LOG_FILE}")"
 
 jq -nc \
-	--arg ts "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
-	--arg action "${ACTION}" \
-	--arg command "${COMMAND}" \
-	--arg status "${STATUS}" \
-	'{timestamp: $ts, action: $action, command: $command, status: $status}' \
-	>>"${LOG_FILE}"
+  --arg ts "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+  --arg action "${ACTION}" \
+  --arg command "${COMMAND}" \
+  --arg status "${STATUS}" \
+  '{timestamp: $ts, action: $action, command: $command, status: $status}' \
+  >>"${LOG_FILE}"
 
 if [[ "${STATUS}" == "success" ]]; then
-	printf 'GAM MUTATION: %s - logged to %s\n' "${ACTION}" "${LOG_FILE}"
+  printf 'GAM MUTATION: %s - logged to %s\n' "${ACTION}" "${LOG_FILE}"
 fi
 
 exit 0

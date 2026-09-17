@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # Codex PreToolUse hook for Bash. Blocks npm commands in projects that use pnpm.
@@ -12,8 +12,8 @@ CWD=$(printf '%s' "${INPUT}" | jq -r '.cwd // env.PWD')
 [[ ! -f "${CWD}/pnpm-lock.yaml" ]] && exit 0
 
 if printf '%s\n' "${CMD}" | grep -qE '(^|;[[:space:]]*|&&[[:space:]]*)npm([[:space:]]|$)'; then
-	printf 'BLOCKED: This project uses pnpm, not npm. Use pnpm instead.\n' >&2
-	exit 2
+  printf 'BLOCKED: This project uses pnpm, not npm. Use pnpm instead.\n' >&2
+  exit 2
 fi
 
 exit 0

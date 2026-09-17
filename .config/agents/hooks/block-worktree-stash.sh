@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-# PreToolUse(Bash) guard: refuse a mutating `git stash` inside a linked worktree, where
-# refs/stash is one stack shared with every other worktree and the user's main checkout.
-# Fails open: any unexpected condition allows the command through.
+# PreToolUse(Bash) guard for mutating `git stash` commands in linked worktrees.
 
-set -uo pipefail
+set -euo pipefail
 
 payload=''
 IFS='' read -r -d '' payload || true
@@ -40,6 +38,6 @@ Use a WIP commit on your own branch instead:
     git add -A && git commit -m "wip: <what you were doing>"
 
 Commits are safe across worktree removal — objects and refs/heads are shared.
-See ~/.claude/reference/git-worktrees.md for the full shared-state map.
+See ~/.config/agents/reference/git-worktrees.md for the full shared-state map.
 MSG
 exit 2

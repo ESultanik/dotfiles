@@ -2,6 +2,25 @@
   "permissions": {
     "defaultMode": "auto"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.config/agents/hooks/block-worktree-stash.sh\"",
+            "if": "Bash(git stash:*)"
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.config/agents/hooks/block-worktree-stash.sh\"",
+            "if": "Bash(git -C * stash*)"
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "static-analysis@trailofbits": false,
     "interslavic@esultanik-skills": true,
@@ -10,33 +29,29 @@
     "audit-context-building@trailofbits": false,
     "issue-writer@trailofbits": false,
     "clangd-lsp@claude-plugins-official": true,
-    "recruiting@trailofbits": true,
     "fix-review@trailofbits": false,
     "culture-index@trailofbits": true,
     "skill-creator@claude-plugins-official": true,
     "github-triage@trailofbits": true
   },
+  "extraKnownMarketplaces": {
+    "esultanik-skills": {
+      "source": {
+        "source": "github",
+        "repo": "esultanik/skills"
+      },
+      "autoUpdate": false
+    },
+    "trailofbits": {
+      "source": {
+        "source": "github",
+        "repo": "trailofbits/skills"
+      },
+      "autoUpdate": false
+    }
+  },
   "effortLevel": "xhigh",
   "tui": "fullscreen",
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/block-worktree-stash.sh\"",
-            "if": "Bash(git stash:*)"
-          },
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/block-worktree-stash.sh\"",
-            "if": "Bash(git -C * stash*)"
-          }
-        ]
-      }
-    ]
-  }
+  "skipAutoPermissionPrompt": true
 }
