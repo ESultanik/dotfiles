@@ -1,0 +1,130 @@
+# Portable Codex defaults. Merge this file into ~/.codex/config.toml with the
+# install-agent-config skill so machine-local state remains untracked.
+
+model = "gpt-5.6-sol"
+review_model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+plan_mode_reasoning_effort = "xhigh"
+model_reasoning_summary = "auto"
+personality = "pragmatic"
+
+approval_policy = "on-request"
+default_permissions = "tob-workspace"
+allow_login_shell = true
+
+web_search = "cached"
+check_for_update_on_startup = true
+project_doc_max_bytes = 32768
+cli_auth_credentials_store = "keyring"
+mcp_oauth_credentials_store = "keyring"
+project_doc_fallback_filenames = ["CLAUDE.md"]
+
+[permissions.tob-workspace.filesystem]
+glob_scan_max_depth = 5
+":root" = "read"
+":tmpdir" = "write"
+"~/.ssh/**" = "deny"
+"~/.gnupg/**" = "deny"
+"~/.aws/**" = "deny"
+"~/.azure/**" = "deny"
+"~/.config/gh/**" = "deny"
+"~/.git-credentials" = "deny"
+"~/.docker/config.json" = "deny"
+"~/.kube/**" = "deny"
+"~/.npmrc" = "deny"
+"~/.npm/**" = "deny"
+"~/.pypirc" = "deny"
+"~/.gem/credentials" = "deny"
+"~/Library/Keychains/**" = "deny"
+"~/Library/Application Support/**/metamask*/**" = "deny"
+"~/Library/Application Support/**/electrum*/**" = "deny"
+"~/Library/Application Support/**/exodus*/**" = "deny"
+"~/Library/Application Support/**/phantom*/**" = "deny"
+"~/Library/Application Support/**/solflare*/**" = "deny"
+
+[permissions.tob-workspace.filesystem.":workspace_roots"]
+"." = "write"
+"**/.env" = "deny"
+"**/.env.*" = "deny"
+"**/*.pem" = "deny"
+"**/*.key" = "deny"
+
+[permissions.tob-workspace.network]
+enabled = false
+
+[shell_environment_policy]
+inherit = "all"
+ignore_default_excludes = false
+exclude = []
+set = {}
+include_only = []
+
+[history]
+persistence = "save-all"
+
+[tui]
+notifications = true
+notification_condition = "unfocused"
+animations = true
+show_tooltips = true
+status_line = ["model-with-reasoning", "context-remaining", "git-branch", "current-dir"]
+terminal_title = ["spinner", "project", "git-branch"]
+
+[analytics]
+enabled = false
+
+[feedback]
+enabled = false
+
+[features]
+hooks = true
+multi_agent = true
+shell_snapshot = true
+unified_exec = true
+skill_mcp_dependency_install = true
+fast_mode = false
+goals = true
+
+[[hooks.PreToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "bash \"$HOME/.config/agents/hooks/block-dangerous-command.sh\""
+timeout = 30
+statusMessage = "Checking command policy"
+
+[[hooks.PreToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "bash \"$HOME/.config/agents/hooks/block-worktree-stash.sh\""
+timeout = 30
+statusMessage = "Checking worktree policy"
+
+[[hooks.PreToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "bash \"$HOME/.config/agents/hooks/enforce-package-manager.sh\""
+timeout = 30
+statusMessage = "Checking package manager"
+
+[[hooks.PostToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PostToolUse.hooks]]
+type = "command"
+command = "bash \"$HOME/.config/agents/hooks/log-gam.sh\""
+timeout = 30
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@4.1.1"]
+
+[mcp_servers.exa]
+command = "npx"
+args = ["-y", "exa-mcp-server@3.4.1"]
+env_vars = ["EXA_API_KEY"]

@@ -1,6 +1,6 @@
 # Git worktrees and parallel agents
 
-Read this before working in a git worktree, or before dispatching agents that use one.
+Read this before working in a Git worktree or dispatching agents that use one.
 
 Worktrees share a single `.git` common directory. Knowing what is shared and what is not settles
 most questions without a rule for each command.
